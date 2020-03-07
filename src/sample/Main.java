@@ -26,6 +26,7 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         Scene scene = new Scene(root, 974, 593);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

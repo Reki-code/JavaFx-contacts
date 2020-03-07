@@ -5,11 +5,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 
 <SplitPane fx:id="rootPane" dividerPositions="0.30864197530864196" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="974.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <items>
@@ -22,8 +18,8 @@
                   <Label contentDisplay="CENTER" layoutX="127.0" layoutY="16.0" styleClass="logo" text="通讯录" />
                </children>
             </AnchorPane>
-            <JFXTextField layoutX="23.0" layoutY="57.0" promptText="sdf" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="57.0" />
-            <JFXListView layoutX="14.0" layoutY="96.0" prefHeight="463.0" prefWidth="292.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
+            <JFXTextField fx:id="searchField" layoutX="23.0" layoutY="57.0" promptText="搜索" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="57.0" />
+            <JFXListView fx:id="personListView" layoutX="14.0" layoutY="96.0" onMouseClicked="#selectPerson" prefHeight="463.0" prefWidth="292.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
             <Label layoutX="14.0" layoutY="97.0" prefHeight="18.0" prefWidth="122.0" text="all con" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="621.0">
@@ -34,29 +30,7 @@
                   <JFXButton layoutX="631.0" layoutY="11.0" onAction="#close" text="X" />
                   <JFXButton fx:id="editButton" layoutX="523.0" layoutY="11.0" onAction="#toggleMode" styleClass="menu-btn" text="edit" />
                </children></AnchorPane>
-            <AnchorPane fx:id="detailPane" layoutX="6.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-               <children>
-                  <AnchorPane layoutY="121.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-                     <children>
-                        <Label text="personal" />
-                        <GridPane layoutY="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
+            <AnchorPane fx:id="detailPane" layoutX="6.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
