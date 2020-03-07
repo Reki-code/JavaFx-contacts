@@ -1,0 +1,24 @@
+root {
+    -fx-font-family: 'Noto Sans CJK SC';
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.menubar {
+    -fx-background-color: #F7F7F7;
+}
+
+.menu-btn:hover {
+    -fx-background-color: white;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-pref-width: 1px;
+}
+
+.logo {
+    -fx-font-family: 'Noto Sans CJK SC Black';
+}
+
+.menu-title {
+}
