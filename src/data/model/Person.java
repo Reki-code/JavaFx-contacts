@@ -4,7 +4,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 public class Person {
@@ -12,6 +14,11 @@ public class Person {
     private final StringProperty phone;
     private final StringProperty address;
     private final ObjectProperty<LocalDate> birthday;
+    private static final LocalDate DEFAULT_DATE = LocalDate.ofYearDay(1880, 1);
+
+    public Person() {
+        this(new SimpleStringProperty(), new SimpleStringProperty(), new SimpleStringProperty(), new SimpleObjectProperty<>(DEFAULT_DATE));
+    }
 
     public Person(String name) {
         this(new SimpleStringProperty(name), new SimpleStringProperty(""), new SimpleStringProperty(""), new SimpleObjectProperty<>(LocalDate.ofYearDay(1880, 1)));
@@ -60,6 +67,7 @@ public class Person {
         this.address.set(address);
     }
 
+    @XmlJavaTypeAdapter(type = LocalDate.class, value = LocalDateAdapter.class)
     public LocalDate getBirthday() {
         return birthday.get();
     }
@@ -70,6 +78,10 @@ public class Person {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
+    }
+
+    public static LocalDate getDefaultDate() {
+        return DEFAULT_DATE;
     }
 
     @Override

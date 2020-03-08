@@ -1,5 +1,7 @@
 package util;
 
+import data.model.Person;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -7,7 +9,10 @@ public class DateUtil {
     private static final String PATTERN = "yyyy-MM-dd";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN);
 
-    // TODO: default time
+    public static boolean isDefaultDate(LocalDate date) {
+        return date != null && date.equals(Person.getDefaultDate());
+    }
+
     public static String format(LocalDate date) {
         if (date == null) {
             return null;

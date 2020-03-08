@@ -45,7 +45,7 @@ public class DetailController extends ContentController implements Initializable
         phoneLabel.setText(getCurrentPerson().getPhone());
         addressLabel.setText(getCurrentPerson().getAddress());
         String birthday;
-        if (getCurrentPerson().getBirthday().equals(LocalDate.MIN)) {
+        if (DateUtil.isDefaultDate(getCurrentPerson().getBirthday())) {
             birthday = "";
         } else {
             birthday = DateUtil.format(getCurrentPerson().getBirthday());

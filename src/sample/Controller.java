@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import data.model.Person;
 import javafx.application.Platform;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,12 +20,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import util.PersonUtil;
 
 import javax.swing.event.ChangeListener;
+import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -86,13 +91,24 @@ public class Controller implements Initializable {
     }
 
     private void loadData() {
-        personData.add(new Person("wang"));
-        personData.add(new Person("zhao"));
-        personData.add(new Person("浅草"));
-        personData.add(new Person("乱步"));
-        Person person = new Person("bir");
-        person.setBirthday(LocalDate.now());
-        personData.add(person);
+        try {
+            personData = PersonUtil.loadPersonDataFrom(new File("/home/togashi/contacts.xml"));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+//        personData.add(new Person("wang"));
+//        personData.add(new Person("zhao"));
+//        personData.add(new Person("浅草"));
+//        personData.add(new Person("乱步"));
+//        Person person = new Person("bir");
+//        person.setBirthday(LocalDate.now());
+//        personData.add(person);
+//        try {
+//            PersonUtil.savePersonDataTo(new File("/home/togashi/contacts.xml"), personData);
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void loadContent() {
@@ -106,6 +122,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         detailPane.getChildren().setAll(content[0]);
+//        editButton.disableProperty().bind(personListView.getSelectionModel().selectedItemProperty());
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("editPerson.fxml"));
             content[1] = loader.load();
@@ -153,7 +170,9 @@ public class Controller implements Initializable {
                 break;
             case NORMAL:
                 detailPane.getChildren().setAll(content[0]);
-                detailController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+                if (!personListView.getSelectionModel().isEmpty()) {
+                    detailController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+                }
                 editButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("edit"), false);
                 editButton.setVisible(true);
                 new FlipInX(editButton).play();
@@ -207,4 +226,5 @@ public class Controller implements Initializable {
     void menu() {
 
     }
+
 }
