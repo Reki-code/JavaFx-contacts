@@ -1,4 +1,4 @@
-package sample;
+package main.java.controller;
 
 import data.model.Person;
 

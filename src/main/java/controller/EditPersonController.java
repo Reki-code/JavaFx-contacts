@@ -1,4 +1,4 @@
-package sample;
+package main.java.controller;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -6,7 +6,7 @@ import data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.util.StringConverter;
-import util.DateUtil;
+import main.java.util.DateUtil;
 
 import java.net.URL;
 import java.time.LocalDate;

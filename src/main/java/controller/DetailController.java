@@ -1,10 +1,10 @@
-package sample;
+package main.java.controller;
 
 import data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import util.DateUtil;
+import main.java.util.DateUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;

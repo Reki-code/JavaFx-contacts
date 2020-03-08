@@ -1,10 +1,10 @@
-package util;
+package main.java.util;
 
 import data.model.Person;
 import data.model.PersonListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.Main;
+import main.java.Main;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

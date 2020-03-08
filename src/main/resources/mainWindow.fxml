@@ -8,17 +8,25 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane fx:id="rootPane" dividerPositions="0.30864197530864196" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="974.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-         <children>
-            <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <JFXButton layoutX="8.0" layoutY="11.0" mnemonicParsing="false" onAction="#addPerson" styleClass="menu-btn" text="+" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0" />
-                  <JFXButton fx:id="menuButton" layoutX="250.0" layoutY="11.0" mnemonicParsing="false" onAction="#menu" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="10.0" />
-                  <Label contentDisplay="CENTER" layoutX="127.0" layoutY="16.0" styleClass="logo" text="通讯录" />
-               </children>
-            </AnchorPane>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootPane" dividerPositions="0.30864197530864196"
+           maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0"
+           prefWidth="974.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171"
+           fx:controller="main.java.controller.MainController">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <children>
+                <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="menubar" AnchorPane.leftAnchor="0.0"
+                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <JFXButton layoutX="8.0" layoutY="11.0" mnemonicParsing="false" onAction="#addPerson"
+                                   styleClass="menu-btn" text="+" AnchorPane.leftAnchor="7.0"
+                                   AnchorPane.topAnchor="10.0"/>
+                        <JFXButton fx:id="menuButton" layoutX="250.0" layoutY="11.0" mnemonicParsing="false"
+                                   onAction="#menu" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0"
+                                   AnchorPane.topAnchor="10.0"/>
+                        <Label contentDisplay="CENTER" layoutX="127.0" layoutY="16.0" styleClass="logo" text="通讯录"/>
+                    </children>
+                </AnchorPane>
             <JFXTextField fx:id="searchField" layoutX="23.0" layoutY="57.0" promptText="搜索" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="57.0" />
             <JFXListView fx:id="personListView" layoutX="14.0" layoutY="96.0" onMouseClicked="#selectPerson" prefHeight="463.0" prefWidth="292.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" />
             <Label layoutX="14.0" layoutY="97.0" prefHeight="18.0" prefWidth="122.0" text="all con" />

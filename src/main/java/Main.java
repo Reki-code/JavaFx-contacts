@@ -1,4 +1,4 @@
-package sample;
+package main.java;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/main/resources/mainWindow.fxml"));
         root.setOnMousePressed(e -> {
             xOffset = e.getSceneX();
             yOffset = e.getSceneY();

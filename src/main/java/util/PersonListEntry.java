@@ -1,4 +1,4 @@
-package sample;
+package main.java.util;
 
 import data.model.Person;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package sample;
+package main.java.controller;
 
 import animatefx.animation.FadeOut;
 import animatefx.animation.FlipInX;
@@ -22,7 +22,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import util.PersonUtil;
+import main.java.util.MainWindowMode;
+import main.java.util.PersonUtil;
+import main.java.util.PersonListEntry;
+
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
@@ -32,14 +35,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-enum Mode {
-    BLANK,
-    EDIT,
-    NORMAL
-
-}
-
-public class Controller implements Initializable {
+public class MainController implements Initializable {
     @FXML
     private JFXButton menuButton;
     @FXML
@@ -57,7 +53,7 @@ public class Controller implements Initializable {
     @FXML
     private JFXButton editButton;
 
-    private Mode mode;
+    private MainWindowMode mode;
     private Parent[] content;
     private ContentController[] contentControllers;
     private ObservableList<Person> personData = FXCollections.observableArrayList();
@@ -70,7 +66,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mode = Mode.NORMAL;
+        mode = MainWindowMode.NORMAL;
         loadContent();
         loadData();
         setUpListView();
@@ -120,7 +116,7 @@ public class Controller implements Initializable {
         content = new Parent[3];
         contentControllers = new ContentController[2];
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("detail.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/detail.fxml"));
             content[0] = loader.load();
             contentControllers[0] = loader.getController();
             contentControllers[0].setCurrentPerson(null);
@@ -129,7 +125,7 @@ public class Controller implements Initializable {
         }
         detailPane.getChildren().setAll(content[0]);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("editPerson.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/editPerson.fxml"));
             content[1] = loader.load();
             contentControllers[1] = loader.getController();
         } catch (IOException e) {
@@ -139,7 +135,7 @@ public class Controller implements Initializable {
 
     @FXML
     void toggleMode() {
-        if (mode.equals(Mode.NORMAL) && !personListView.getSelectionModel().isEmpty()) {
+        if (mode.equals(MainWindowMode.NORMAL) && !personListView.getSelectionModel().isEmpty()) {
             editMode();
             contentControllers[1].setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
         } else { // Edit Mode
@@ -153,19 +149,19 @@ public class Controller implements Initializable {
     }
 
     private void blankMode() {
-        mode = Mode.BLANK;
+        mode = MainWindowMode.BLANK;
         editButton.setVisible(false);
     }
 
     private void editMode() {
-        mode = Mode.EDIT;
+        mode = MainWindowMode.EDIT;
         changeContent();
         personListView.setDisable(true);
         searchField.setDisable(true);
     }
 
     private void normalMode() {
-        mode = Mode.NORMAL;
+        mode = MainWindowMode.NORMAL;
         changeContent();
         personListView.setDisable(false);
         searchField.setDisable(false);
@@ -201,7 +197,7 @@ public class Controller implements Initializable {
     @FXML
     void selectPerson() {
         Person person = personListView.getSelectionModel().getSelectedItem().getPerson();
-        if (mode.equals(Mode.NORMAL)) {
+        if (mode.equals(MainWindowMode.NORMAL)) {
             contentControllers[0].setCurrentPerson(person);
         }
         titleLabel.setText(person.getName());
