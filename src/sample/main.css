@@ -20,7 +20,22 @@ root {
 
 .logo {
     -fx-font-family: 'Noto Sans CJK SC Black';
+    -fx-font-weight: 700;
 }
 
 .menu-title {
+}
+
+.edit-btn {
+}
+
+.edit-btn:edit {
+    -fx-background-color: deepskyblue;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.delete-btn {
+    -fx-background-color: red;
+    -fx-text-fill: white;
 }

@@ -1,5 +1,6 @@
 package sample;
 
+import animatefx.animation.FadeOut;
 import animatefx.animation.FlipInX;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -9,10 +10,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 
@@ -32,6 +36,10 @@ enum Mode {
 
 public class Controller implements Initializable {
     @FXML
+    private JFXButton cancelButton;
+    @FXML
+    private Label titleLabel;
+    @FXML
     private JFXTextField searchField;
     @FXML
     private JFXListView<PersonListEntry> personListView;
@@ -43,8 +51,9 @@ public class Controller implements Initializable {
     private JFXButton editButton;
 
     private Mode mode;
-    Parent[] content;
-    DetailController detailController;
+    private Parent[] content;
+    private DetailController detailController;
+    private EditPersonController editPersonController;
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
     @FXML
@@ -82,12 +91,8 @@ public class Controller implements Initializable {
         personData.add(new Person("浅草"));
         personData.add(new Person("乱步"));
         Person person = new Person("bir");
-        person.setBirthday(LocalDate.MAX);
+        person.setBirthday(LocalDate.now());
         personData.add(person);
-    }
-
-    public ObservableList<Person> getPersonData() {
-        return personData;
     }
 
     private void loadContent() {
@@ -101,12 +106,20 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         detailPane.getChildren().setAll(content[0]);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("editPerson.fxml"));
+            content[1] = loader.load();
+            editPersonController = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void toggleMode() {
-        if (mode.equals(Mode.NORMAL)) {
+        if (mode.equals(Mode.NORMAL) && !personListView.getSelectionModel().isEmpty()) {
             editMode();
+            editPersonController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
         } else {
             normalMode();
         }
@@ -119,21 +132,79 @@ public class Controller implements Initializable {
 
     private void editMode() {
         mode = Mode.EDIT;
-        editButton.setVisible(true);
-        new FlipInX(editButton).play();
-        editButton.setText("done");
+        changeContent();
+        personListView.setDisable(true);
+        searchField.setDisable(true);
     }
 
     private void normalMode() {
         mode = Mode.NORMAL;
-        editButton.setVisible(true);
-        new FlipInX(editButton).play();
-        editButton.setText("edit");
+        changeContent();
+        personListView.setDisable(false);
+        searchField.setDisable(false);
+    }
+
+    private void changeContent() {
+        switch (mode) {
+            case BLANK:
+                detailPane.getChildren().setAll(content[0]);
+                new FadeOut(editButton);
+                editButton.setVisible(false);
+                break;
+            case NORMAL:
+                detailPane.getChildren().setAll(content[0]);
+                detailController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+                editButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("edit"), false);
+                editButton.setVisible(true);
+                new FlipInX(editButton).play();
+                editButton.setText("修改");
+                break;
+            case EDIT:
+                detailPane.getChildren().setAll(content[1]);
+                editButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("edit"), true);
+                editButton.setVisible(true);
+                new FlipInX(editButton).play();
+                editButton.setText("完成");
+                break;
+        }
     }
 
     @FXML
     void selectPerson() {
-        detailController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+        Person person = personListView.getSelectionModel().getSelectedItem().getPerson();
+        if (mode.equals(Mode.NORMAL)) {
+            detailController.setCurrentPerson(person);
+        }
+        titleLabel.setText(person.getName());
     }
 
+    private void addPerson(Person person) {
+        personData.add(person);
+        setUpListView();
+        System.out.println(personListView.getItems());
+    }
+
+    private void delPerson(Person person) {
+        personData.remove(person);
+        personListView.getItems().removeIf(personListEntry -> personListEntry.getPerson().equals(person));
+    }
+
+    @FXML
+    void addPerson() {
+        editMode();
+        Person newPerson = new Person("");
+        newPerson.setBirthday(LocalDate.now());
+        editPersonController.setCurrentPerson(newPerson);
+        addPerson(newPerson);
+        cancelButton.setVisible(true);
+        cancelButton.setOnAction(event -> {
+            delPerson(newPerson);
+            cancelButton.setVisible(false);
+        });
+    }
+
+    @FXML
+    void menu() {
+
+    }
 }

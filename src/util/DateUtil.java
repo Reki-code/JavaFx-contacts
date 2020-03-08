@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
-    private static final String PATTERN = "yyyy年mm月dd日";
+    private static final String PATTERN = "yyyy-MM-dd";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN);
 
+    // TODO: default time
     public static String format(LocalDate date) {
         if (date == null) {
             return null;

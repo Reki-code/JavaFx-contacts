@@ -14,7 +14,7 @@ public class Person {
     private final ObjectProperty<LocalDate> birthday;
 
     public Person(String name) {
-        this(new SimpleStringProperty(name), new SimpleStringProperty(""), new SimpleStringProperty(""), new SimpleObjectProperty<>(LocalDate.MIN));
+        this(new SimpleStringProperty(name), new SimpleStringProperty(""), new SimpleStringProperty(""), new SimpleObjectProperty<>(LocalDate.ofYearDay(1880, 1)));
     }
 
     public Person(StringProperty name, StringProperty phone, StringProperty address, ObjectProperty<LocalDate> birthday) {

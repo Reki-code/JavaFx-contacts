@@ -10,7 +10,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class DetailController implements Initializable {
+public class DetailController extends ContentController implements Initializable {
     @FXML
     private Label nameLabel;
     @FXML
@@ -19,13 +19,13 @@ public class DetailController implements Initializable {
     private Label addressLabel;
     @FXML
     private Label birthdayLabel;
-    private Person currentPerson;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
+    @Override
     public void setCurrentPerson(Person currentPerson) {
-        this.currentPerson = currentPerson;
+        super.setCurrentPerson(currentPerson);
         if (currentPerson == null) {
             clearLabels();
         } else {
@@ -41,12 +41,15 @@ public class DetailController implements Initializable {
     }
 
     private void setUpLabels() {
-        nameLabel.setText(currentPerson.getName());
-        phoneLabel.setText(currentPerson.getPhone());
-        addressLabel.setText(currentPerson.getAddress());
-        String birthday = currentPerson.getBirthday().equals(LocalDate.MIN)
-                ? ""
-                : DateUtil.format(currentPerson.getBirthday());
+        nameLabel.setText(getCurrentPerson().getName());
+        phoneLabel.setText(getCurrentPerson().getPhone());
+        addressLabel.setText(getCurrentPerson().getAddress());
+        String birthday;
+        if (getCurrentPerson().getBirthday().equals(LocalDate.MIN)) {
+            birthday = "";
+        } else {
+            birthday = DateUtil.format(getCurrentPerson().getBirthday());
+        }
         birthdayLabel.setText(birthday);
     }
 }

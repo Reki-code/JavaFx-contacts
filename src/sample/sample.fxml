@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,8 +14,8 @@
          <children>
             <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <JFXButton layoutX="8.0" layoutY="11.0" mnemonicParsing="false" styleClass="menu-btn" text="+" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0" />
-                  <JFXButton layoutX="250.0" layoutY="11.0" mnemonicParsing="false" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="10.0" />
+                  <JFXButton layoutX="8.0" layoutY="11.0" mnemonicParsing="false" onAction="#addPerson" styleClass="menu-btn" text="+" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0" />
+                  <JFXButton layoutX="250.0" layoutY="11.0" mnemonicParsing="false" onAction="#menu" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="10.0" />
                   <Label contentDisplay="CENTER" layoutX="127.0" layoutY="16.0" styleClass="logo" text="通讯录" />
                </children>
             </AnchorPane>
@@ -26,11 +27,21 @@
          <children>
             <AnchorPane layoutX="64.0" layoutY="28.0" prefHeight="50.0" prefWidth="200.0" styleClass="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="319.0" layoutY="16.0" styleClass="menu-title" text="Label" />
+                  <Label fx:id="titleLabel" layoutX="319.0" layoutY="16.0" styleClass="menu-title" text="Label" />
                   <JFXButton layoutX="631.0" layoutY="11.0" onAction="#close" text="X" />
-                  <JFXButton fx:id="editButton" layoutX="523.0" layoutY="11.0" onAction="#toggleMode" styleClass="menu-btn" text="edit" />
+                  <JFXButton fx:id="editButton" layoutX="523.0" layoutY="11.0" onAction="#toggleMode" text="edit">
+                     <styleClass>
+                        <String fx:value="menu-btn" />
+                        <String fx:value="edit-btn" />
+                     </styleClass></JFXButton>
+                  <JFXButton fx:id="cancelButton" layoutX="21.0" layoutY="11.0" text="cancel" />
                </children></AnchorPane>
             <AnchorPane fx:id="detailPane" layoutX="6.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+            <AnchorPane prefHeight="45.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXButton layoutX="534.0" layoutY="9.0" styleClass="delete-btn" text="delete" />
+               </children>
+            </AnchorPane>
          </children></AnchorPane>
   </items>
 </SplitPane>
