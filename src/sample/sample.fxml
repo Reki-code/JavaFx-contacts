@@ -15,7 +15,7 @@
             <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <JFXButton layoutX="8.0" layoutY="11.0" mnemonicParsing="false" onAction="#addPerson" styleClass="menu-btn" text="+" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="10.0" />
-                  <JFXButton layoutX="250.0" layoutY="11.0" mnemonicParsing="false" onAction="#menu" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="10.0" />
+                  <JFXButton fx:id="menuButton" layoutX="250.0" layoutY="11.0" mnemonicParsing="false" onAction="#menu" styleClass="menu-btn" text="⠇" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="10.0" />
                   <Label contentDisplay="CENTER" layoutX="127.0" layoutY="16.0" styleClass="logo" text="通讯录" />
                </children>
             </AnchorPane>

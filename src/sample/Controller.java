@@ -4,6 +4,7 @@ import animatefx.animation.FadeOut;
 import animatefx.animation.FlipInX;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import data.model.Person;
 import javafx.application.Platform;
@@ -20,6 +21,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import util.PersonUtil;
 
 import javax.swing.event.ChangeListener;
@@ -40,6 +43,8 @@ enum Mode {
 }
 
 public class Controller implements Initializable {
+    @FXML
+    private JFXButton menuButton;
     @FXML
     private JFXButton cancelButton;
     @FXML
@@ -224,7 +229,53 @@ public class Controller implements Initializable {
 
     @FXML
     void menu() {
+        JFXButton saveButton = new JFXButton("保存");
+        JFXButton importButton = new JFXButton("导入");
+        VBox vBox = new VBox(saveButton, importButton);
+        JFXPopup popup = new JFXPopup(vBox);
+        saveButton.setOnAction(e -> {
+           saveContacts();
+        });
+        importButton.setOnAction(e -> {
+            openNewContacts();
+        });
 
+        popup.show(menuButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT);
     }
 
+    private void openNewContacts() {
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML 文件 (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+        File file = fileChooser.showOpenDialog(rootPane.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                personData = PersonUtil.loadPersonDataFrom(file);
+                setUpListView();
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveContacts() {
+
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML 文件 (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+        File file = fileChooser.showSaveDialog(rootPane.getScene().getWindow());
+
+        if (file != null) {
+            try {
+                PersonUtil.savePersonDataTo(file, personData);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
