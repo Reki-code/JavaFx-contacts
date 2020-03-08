@@ -5,66 +5,61 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import util.LocalDateAdapter;
-
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 public class Person {
+    private static final LocalDate DEFAULT_DATE = LocalDate.ofYearDay(1880, 1);
     private final StringProperty name;
     private final StringProperty phone;
     private final StringProperty address;
     private final ObjectProperty<LocalDate> birthday;
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofYearDay(1880, 1);
 
     public Person() {
-        this(new SimpleStringProperty(), new SimpleStringProperty(), new SimpleStringProperty(), new SimpleObjectProperty<>(DEFAULT_DATE));
+        name = new SimpleStringProperty();
+        phone = new SimpleStringProperty();
+        address = new SimpleStringProperty();
+        birthday = new SimpleObjectProperty<>(DEFAULT_DATE);
     }
 
-    public Person(String name) {
-        this(new SimpleStringProperty(name), new SimpleStringProperty(""), new SimpleStringProperty(""), new SimpleObjectProperty<>(LocalDate.ofYearDay(1880, 1)));
-    }
-
-    public Person(StringProperty name, StringProperty phone, StringProperty address, ObjectProperty<LocalDate> birthday) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.birthday = birthday;
+    public static LocalDate getDefaultDate() {
+        return DEFAULT_DATE;
     }
 
     public String getName() {
         return name.get();
     }
 
-    public StringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
     public String getPhone() {
         return phone.get();
     }
 
-    public StringProperty phoneProperty() {
-        return phone;
-    }
-
     public void setPhone(String phone) {
         this.phone.set(phone);
+    }
+
+    public StringProperty phoneProperty() {
+        return phone;
     }
 
     public String getAddress() {
         return address.get();
     }
 
-    public StringProperty addressProperty() {
-        return address;
-    }
-
     public void setAddress(String address) {
         this.address.set(address);
+    }
+
+    public StringProperty addressProperty() {
+        return address;
     }
 
     @XmlJavaTypeAdapter(type = LocalDate.class, value = LocalDateAdapter.class)
@@ -72,16 +67,12 @@ public class Person {
         return birthday.get();
     }
 
-    public ObjectProperty<LocalDate> birthdayProperty() {
-        return birthday;
-    }
-
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
     }
 
-    public static LocalDate getDefaultDate() {
-        return DEFAULT_DATE;
+    public ObjectProperty<LocalDate> birthdayProperty() {
+        return birthday;
     }
 
     @Override

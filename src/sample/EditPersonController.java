@@ -10,11 +10,7 @@ import util.DateUtil;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Observable;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class EditPersonController extends ContentController implements Initializable {
     @FXML

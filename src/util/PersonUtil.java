@@ -52,15 +52,6 @@ public class PersonUtil {
         setPersonFilePath(file);
     }
 
-    private static void setPersonFilePath(File file) {
-        Preferences prefs = Preferences.userNodeForPackage(Main.class);
-        if (file != null) {
-            prefs.put(PREFS_KEY, file.getPath());
-        } else {
-            prefs.remove(PREFS_KEY);
-        }
-    }
-
     private static File getPersonFilePath() {
         Preferences prefs = Preferences.userNodeForPackage(Main.class);
         String path = prefs.get(PREFS_KEY, null);
@@ -71,4 +62,16 @@ public class PersonUtil {
         }
     }
 
+    private static void setPersonFilePath(File file) {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);
+        if (file != null) {
+            prefs.put(PREFS_KEY, file.getPath());
+        } else {
+            prefs.remove(PREFS_KEY);
+        }
+    }
+
+    public static void savePersonDataTo(ObservableList<Person> personData) throws JAXBException {
+        savePersonDataTo(getPersonFilePath(), personData);
+    }
 }

@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import util.DateUtil;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class DetailController extends ContentController implements Initializable {
@@ -19,6 +18,7 @@ public class DetailController extends ContentController implements Initializable
     private Label addressLabel;
     @FXML
     private Label birthdayLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }

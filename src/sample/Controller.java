@@ -8,15 +8,14 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import data.model.Person;
 import javafx.application.Platform;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.css.PseudoClass;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -24,22 +23,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import util.PersonUtil;
-
-import javax.swing.event.ChangeListener;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 enum Mode {
     BLANK,
-    NORMAL,
-    EDIT
+    EDIT,
+    NORMAL
+
 }
 
 public class Controller implements Initializable {
@@ -62,9 +59,9 @@ public class Controller implements Initializable {
 
     private Mode mode;
     private Parent[] content;
-    private DetailController detailController;
-    private EditPersonController editPersonController;
+    private ContentController[] contentControllers;
     private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private JFXPopup popup;
 
     @FXML
     void close() {
@@ -77,6 +74,21 @@ public class Controller implements Initializable {
         loadContent();
         loadData();
         setUpListView();
+        setUpToolbar();
+    }
+
+    private void setUpToolbar() {
+        JFXButton saveButton = new JFXButton("保存");
+        JFXButton importButton = new JFXButton("导入");
+        VBox vBox = new VBox(saveButton, importButton);
+        vBox.setPadding(new Insets(10));
+        popup = new JFXPopup(vBox);
+        saveButton.setOnAction(e -> {
+            saveContacts();
+        });
+        importButton.setOnAction(e -> {
+            openNewContacts();
+        });
     }
 
     private void setUpListView() {
@@ -102,36 +114,24 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-//        personData.add(new Person("wang"));
-//        personData.add(new Person("zhao"));
-//        personData.add(new Person("浅草"));
-//        personData.add(new Person("乱步"));
-//        Person person = new Person("bir");
-//        person.setBirthday(LocalDate.now());
-//        personData.add(person);
-//        try {
-//            PersonUtil.savePersonDataTo(new File("/home/togashi/contacts.xml"), personData);
-//        } catch (JAXBException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void loadContent() {
         content = new Parent[3];
+        contentControllers = new ContentController[2];
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("detail.fxml"));
             content[0] = loader.load();
-            detailController = loader.getController();
-            detailController.setCurrentPerson(null);
+            contentControllers[0] = loader.getController();
+            contentControllers[0].setCurrentPerson(null);
         } catch (IOException e) {
             e.printStackTrace();
         }
         detailPane.getChildren().setAll(content[0]);
-//        editButton.disableProperty().bind(personListView.getSelectionModel().selectedItemProperty());
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("editPerson.fxml"));
             content[1] = loader.load();
-            editPersonController = loader.getController();
+            contentControllers[1] = loader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,8 +141,13 @@ public class Controller implements Initializable {
     void toggleMode() {
         if (mode.equals(Mode.NORMAL) && !personListView.getSelectionModel().isEmpty()) {
             editMode();
-            editPersonController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
-        } else {
+            contentControllers[1].setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+        } else { // Edit Mode
+            try {
+                PersonUtil.savePersonDataTo(personData);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
             normalMode();
         }
     }
@@ -176,7 +181,7 @@ public class Controller implements Initializable {
             case NORMAL:
                 detailPane.getChildren().setAll(content[0]);
                 if (!personListView.getSelectionModel().isEmpty()) {
-                    detailController.setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+                    contentControllers[0].setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
                 }
                 editButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("edit"), false);
                 editButton.setVisible(true);
@@ -197,7 +202,7 @@ public class Controller implements Initializable {
     void selectPerson() {
         Person person = personListView.getSelectionModel().getSelectedItem().getPerson();
         if (mode.equals(Mode.NORMAL)) {
-            detailController.setCurrentPerson(person);
+            contentControllers[0].setCurrentPerson(person);
         }
         titleLabel.setText(person.getName());
     }
@@ -216,9 +221,9 @@ public class Controller implements Initializable {
     @FXML
     void addPerson() {
         editMode();
-        Person newPerson = new Person("");
+        Person newPerson = new Person();
         newPerson.setBirthday(LocalDate.now());
-        editPersonController.setCurrentPerson(newPerson);
+        contentControllers[1].setCurrentPerson(newPerson);
         addPerson(newPerson);
         cancelButton.setVisible(true);
         cancelButton.setOnAction(event -> {
@@ -229,17 +234,6 @@ public class Controller implements Initializable {
 
     @FXML
     void menu() {
-        JFXButton saveButton = new JFXButton("保存");
-        JFXButton importButton = new JFXButton("导入");
-        VBox vBox = new VBox(saveButton, importButton);
-        JFXPopup popup = new JFXPopup(vBox);
-        saveButton.setOnAction(e -> {
-           saveContacts();
-        });
-        importButton.setOnAction(e -> {
-            openNewContacts();
-        });
-
         popup.show(menuButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT);
     }
 
