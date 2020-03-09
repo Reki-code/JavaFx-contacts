@@ -1,12 +1,12 @@
 package main.java.controller;
 
+import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
 import animatefx.animation.FlipInX;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
-import main.java.data.model.Person;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,9 +22,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import main.java.data.model.Person;
 import main.java.util.MainWindowMode;
-import main.java.util.PersonUtil;
 import main.java.util.PersonListEntry;
+import main.java.util.PersonUtil;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
@@ -36,6 +37,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class MainController implements Initializable {
+    @FXML
+    private JFXButton deleteButton;
     @FXML
     private JFXButton menuButton;
     @FXML
@@ -71,6 +74,8 @@ public class MainController implements Initializable {
         loadData();
         setUpListView();
         setUpToolbar();
+//        personListView
+
     }
 
     private void setUpToolbar() {
@@ -85,6 +90,8 @@ public class MainController implements Initializable {
         importButton.setOnAction(e -> {
             openNewContacts();
         });
+        cancelButton.setVisible(false);
+        deleteButton.setVisible(false);
     }
 
     private void setUpListView() {
@@ -116,6 +123,13 @@ public class MainController implements Initializable {
         content = new Parent[3];
         contentControllers = new ContentController[2];
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/java/controller/blank.fxml"));
+            content[2] = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        detailPane.getChildren().setAll(content[2]);
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/fxml/detail.fxml"));
             content[0] = loader.load();
             contentControllers[0] = loader.getController();
@@ -123,7 +137,6 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        detailPane.getChildren().setAll(content[0]);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/fxml/editPerson.fxml"));
             content[1] = loader.load();
@@ -150,7 +163,11 @@ public class MainController implements Initializable {
 
     private void blankMode() {
         mode = MainWindowMode.BLANK;
+        changeContent();
         editButton.setVisible(false);
+        personListView.setDisable(false);
+        searchField.setDisable(false);
+        deleteButton.setVisible(false);
     }
 
     private void editMode() {
@@ -158,6 +175,12 @@ public class MainController implements Initializable {
         changeContent();
         personListView.setDisable(true);
         searchField.setDisable(true);
+        deleteButton.setVisible(true);
+        deleteButton.setOnAction(e -> {
+            delPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
+            toggleMode();
+            deleteButton.setVisible(false);
+        });
     }
 
     private void normalMode() {
@@ -165,13 +188,13 @@ public class MainController implements Initializable {
         changeContent();
         personListView.setDisable(false);
         searchField.setDisable(false);
+        deleteButton.setVisible(false);
     }
 
     private void changeContent() {
         switch (mode) {
             case BLANK:
-                detailPane.getChildren().setAll(content[0]);
-                new FadeOut(editButton);
+                detailPane.getChildren().setAll(content[2]);
                 editButton.setVisible(false);
                 break;
             case NORMAL:
@@ -197,6 +220,9 @@ public class MainController implements Initializable {
     @FXML
     void selectPerson() {
         Person person = personListView.getSelectionModel().getSelectedItem().getPerson();
+        if (mode.equals(MainWindowMode.BLANK)) {
+            normalMode();
+        }
         if (mode.equals(MainWindowMode.NORMAL)) {
             contentControllers[0].setCurrentPerson(person);
         }
@@ -211,7 +237,7 @@ public class MainController implements Initializable {
 
     private void delPerson(Person person) {
         personData.remove(person);
-        personListView.getItems().removeIf(personListEntry -> personListEntry.getPerson().equals(person));
+        setUpListView();
     }
 
     @FXML
@@ -221,10 +247,13 @@ public class MainController implements Initializable {
         newPerson.setBirthday(LocalDate.now());
         contentControllers[1].setCurrentPerson(newPerson);
         addPerson(newPerson);
+        new FadeIn(cancelButton).play();
         cancelButton.setVisible(true);
         cancelButton.setOnAction(event -> {
             delPerson(newPerson);
+            new FadeOut(cancelButton).play();
             cancelButton.setVisible(false);
+            blankMode();
         });
     }
 

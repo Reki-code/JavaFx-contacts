@@ -53,17 +53,17 @@ public class EditPersonController extends ContentController implements Initializ
             }
         });
         nameField.textProperty().addListener((o, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue)) {
+            if (oldValue != null && !oldValue.equals(newValue)) {
                 getCurrentPerson().setName(newValue);
             }
         });
         phoneField.textProperty().addListener((o, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue)) {
+            if (oldValue != null && !oldValue.equals(newValue)) {
                 getCurrentPerson().setPhone(newValue);
             }
         });
         addressField.textProperty().addListener((o, oldValue, newValue) -> {
-            if (!oldValue.equals(newValue)) {
+            if (oldValue != null && !oldValue.equals(newValue)) {
                 getCurrentPerson().setAddress(newValue);
             }
         });
