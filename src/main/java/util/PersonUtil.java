@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 public class PersonUtil {
@@ -33,7 +35,8 @@ public class PersonUtil {
         // load main.java.data
         PersonListWrapper wrapper = (PersonListWrapper) unmarshaller.unmarshal(file);
 
-        personData.addAll(wrapper.getPersonList());
+        List<Person> personList = wrapper.getPersonList();
+        personData.addAll(personList != null ? personList : new ArrayList<>());
 
         setPersonFilePath(file);
         return personData;

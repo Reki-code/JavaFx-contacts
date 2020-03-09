@@ -74,8 +74,6 @@ public class MainController implements Initializable {
         loadData();
         setUpListView();
         setUpToolbar();
-//        personListView
-
     }
 
     private void setUpToolbar() {
@@ -129,6 +127,7 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
         detailPane.getChildren().setAll(content[2]);
+        blankMode();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/fxml/detail.fxml"));
             content[0] = loader.load();
@@ -219,6 +218,9 @@ public class MainController implements Initializable {
 
     @FXML
     void selectPerson() {
+        if (personData.isEmpty() || personListView.getSelectionModel().isEmpty()) {
+            return;
+        }
         Person person = personListView.getSelectionModel().getSelectedItem().getPerson();
         if (mode.equals(MainWindowMode.BLANK)) {
             normalMode();
