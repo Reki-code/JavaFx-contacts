@@ -1,4 +1,6 @@
-package data.model;
+package main.java.data;
+
+import main.java.data.model.Person;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

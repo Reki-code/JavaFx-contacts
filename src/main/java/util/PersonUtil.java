@@ -1,7 +1,7 @@
 package main.java.util;
 
-import data.model.Person;
-import data.model.PersonListWrapper;
+import main.java.data.model.Person;
+import main.java.data.PersonListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.java.Main;
@@ -30,7 +30,7 @@ public class PersonUtil {
         JAXBContext context = JAXBContext.newInstance(PersonListWrapper.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        // load data
+        // load main.java.data
         PersonListWrapper wrapper = (PersonListWrapper) unmarshaller.unmarshal(file);
 
         personData.addAll(wrapper.getPersonList());

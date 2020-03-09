@@ -1,6 +1,6 @@
 package main.java.util;
 
-import data.model.Person;
+import main.java.data.model.Person;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

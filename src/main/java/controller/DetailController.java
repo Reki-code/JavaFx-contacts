@@ -1,6 +1,6 @@
 package main.java.controller;
 
-import data.model.Person;
+import main.java.data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

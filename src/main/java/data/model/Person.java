@@ -1,4 +1,4 @@
-package data.model;
+package main.java.data.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

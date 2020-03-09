@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
-import data.model.Person;
+import main.java.data.model.Person;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -116,7 +116,7 @@ public class MainController implements Initializable {
         content = new Parent[3];
         contentControllers = new ContentController[2];
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/detail.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/fxml/detail.fxml"));
             content[0] = loader.load();
             contentControllers[0] = loader.getController();
             contentControllers[0].setCurrentPerson(null);
@@ -125,7 +125,7 @@ public class MainController implements Initializable {
         }
         detailPane.getChildren().setAll(content[0]);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/editPerson.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/fxml/editPerson.fxml"));
             content[1] = loader.load();
             contentControllers[1] = loader.getController();
         } catch (IOException e) {

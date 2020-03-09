@@ -2,7 +2,7 @@ package main.java.controller;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
-import data.model.Person;
+import main.java.data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.util.StringConverter;

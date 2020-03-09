@@ -1,6 +1,6 @@
 package main.java.controller;
 
-import data.model.Person;
+import main.java.data.model.Person;
 
 public class ContentController {
     private Person currentPerson;
