@@ -17,14 +17,10 @@ import java.util.prefs.Preferences;
 
 public class PersonUtil {
     public static final String PREFS_KEY = "path";
-    public static final String DEFAULT_PATH = "/home/togashi/contacts.xml";
+    public static final String DEFAULT_PATH = "src/contacts.xml";
 
     public static ObservableList<Person> loadPersonData() throws JAXBException {
-        File path = getPersonFilePath();
-        if (path == null) {
-            path = new File(DEFAULT_PATH);
-        }
-        return loadPersonDataFrom(path);
+        return loadPersonDataFrom(new File(DEFAULT_PATH));
     }
 
     public static ObservableList<Person> loadPersonDataFrom(File file) throws JAXBException {

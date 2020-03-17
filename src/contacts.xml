@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persons>
+    <person>
+        <address>Taiyuan, Shanxi.</address>
+        <avatar>DEFAULT</avatar>
+        <birthday>1998-11-21</birthday>
+        <name>张先生</name>
+        <phone>12312341234</phone>
+    </person>
+    <person>
+        <address>Taiyuan, Shanxi</address>
+        <avatar>DEFAULT</avatar>
+        <birthday>1988-03-01</birthday>
+        <name>rrr</name>
+        <phone>12312123412</phone>
+    </person>
+    <person>
+        <address>Taiyuan. Shanxi</address>
+        <avatar>DEFAULT</avatar>
+        <birthday>1993-03-03</birthday>
+        <name>Sample</name>
+        <phone>12345678901</phone>
+    </person>
+</persons>

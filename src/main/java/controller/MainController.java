@@ -114,7 +114,7 @@ public class MainController implements Initializable {
 
     private void loadData() {
         try {
-            personData = PersonUtil.loadPersonDataFrom(new File("/home/togashi/contacts.xml"));
+            personData = PersonUtil.loadPersonData();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
