@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import javafx.scene.image.ImageView;
 import main.java.data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DetailController extends ContentController implements Initializable {
+    @FXML
+    private ImageView avatarView;
     @FXML
     private Label nameLabel;
     @FXML
@@ -34,6 +37,7 @@ public class DetailController extends ContentController implements Initializable
     }
 
     private void clearLabels() {
+        avatarView.setImage(Person.getDefaultAvatar());
         nameLabel.setText("");
         phoneLabel.setText("");
         addressLabel.setText("");
@@ -41,6 +45,7 @@ public class DetailController extends ContentController implements Initializable
     }
 
     private void setUpLabels() {
+        avatarView.setImage(getCurrentPerson().getAvatar());
         nameLabel.setText(getCurrentPerson().getName());
         phoneLabel.setText(getCurrentPerson().getPhone());
         addressLabel.setText(getCurrentPerson().getAddress());

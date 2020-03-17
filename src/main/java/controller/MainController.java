@@ -19,6 +19,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -29,6 +31,8 @@ import main.java.util.PersonUtil;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -101,8 +105,8 @@ public class MainController implements Initializable {
             if (newVal.isEmpty()) {
                 filteredData.setPredicate(p -> true);
             } else {
-                filteredData.setPredicate(p -> p.getName().contains(newVal)
-                        || p.getPhone().contains(newVal));
+                filteredData.setPredicate(p -> (p.getName().contains(newVal))
+                        || (p.getPhone().contains(newVal)));
             }
         });
         personListView.setItems(filteredData);
@@ -121,9 +125,8 @@ public class MainController implements Initializable {
         content = new Parent[3];
         contentControllers = new ContentController[2];
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/java/controller/blank.fxml"));
-            content[2] = loader.load();
-        } catch (IOException e) {
+            content[2] = new AnchorPane(new ImageView(new Image(new FileInputStream("src/main/resources/images/background.png"))));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         detailPane.getChildren().setAll(content[2]);
@@ -147,6 +150,7 @@ public class MainController implements Initializable {
 
     @FXML
     void toggleMode() {
+        cancelButton.setVisible(false);
         if (mode.equals(MainWindowMode.NORMAL) && !personListView.getSelectionModel().isEmpty()) {
             editMode();
             contentControllers[1].setCurrentPerson(personListView.getSelectionModel().getSelectedItem().getPerson());
@@ -249,6 +253,7 @@ public class MainController implements Initializable {
         newPerson.setBirthday(LocalDate.now());
         contentControllers[1].setCurrentPerson(newPerson);
         addPerson(newPerson);
+        titleLabel.setText("添加新联系人");
         new FadeIn(cancelButton).play();
         cancelButton.setVisible(true);
         cancelButton.setOnAction(event -> {

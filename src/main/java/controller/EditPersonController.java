@@ -2,6 +2,7 @@ package main.java.controller;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.scene.image.ImageView;
 import main.java.data.model.Person;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +14,8 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class EditPersonController extends ContentController implements Initializable {
+    @FXML
+    private ImageView avatarView;
     @FXML
     private JFXTextField nameField;
     @FXML
@@ -33,6 +36,7 @@ public class EditPersonController extends ContentController implements Initializ
         if (person == null) {
             return;
         }
+        avatarView.setImage(person.getAvatar());
         nameField.setText(person.getName());
         phoneField.setText(person.getPhone());
         addressField.setText(person.getAddress());
